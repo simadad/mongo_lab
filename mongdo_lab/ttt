@@ -1,0 +1,17 @@
+db.createUser({
+    user: "marklab",
+    pwd: "marklab2017",
+    roles: [
+        { role: "userAdminAnyDatabase", db: "admin" }
+    ]
+ })
+
+use labdb
+
+db.createUser(
+   {
+     user: "AAA",
+     pwd: "AAA",
+     roles: [ { role: "readWrite", db: "labdb" } ]
+   }
+)

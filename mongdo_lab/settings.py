@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import mongoengine
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'labcrm',
+    'account'
 ]
 
 MIDDLEWARE = [
@@ -54,7 +56,7 @@ ROOT_URLCONF = 'mongdo_lab.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,14 +77,27 @@ WSGI_APPLICATION = 'mongdo_lab.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': '',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+SESSION_ENGINEE = 'mongoengine.django.sessins'
+
+_MONGODB_USER = 'AAA'
+_MONGODB_PASSWD = 'AAA'
+_MONGODB_HOST = 'localhost'
+MONGODB_NAME = 'labdb'
+_MONGODB_DATABASE_HOST = \
+    'mongodb://%s:%s@%s/%s' \
+    % (_MONGODB_USER, _MONGODB_PASSWD, _MONGODB_HOST, MONGODB_NAME)
+
+mongoengine.connect(MONGODB_NAME, host=_MONGODB_DATABASE_HOST)
 
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -118,3 +133,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
